@@ -4,23 +4,16 @@
 # https://aka.ms/yaml
 
 trigger:
-  - main  # Trigger pipeline when code is pushed to main branch
+  - main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 steps:
   - task: Docker@2
-    displayName: Build Docker Image
     inputs:
-      command: build
-      repository: 'myregistry.azurecr.io/my-flask-app'
+      command: 'buildAndPush'
+      repository: 'madhuri224/my-flask-app'
       dockerfile: '**/Dockerfile'
-      tags: '$(Build.BuildId)'
-
-  - task: Docker@2
-    displayName: Push to ACR
-    inputs:
-      command: push
-      repository: 'myregistry.azurecr.io/my-flask-app'
+      containerRegistry: 'dockerregistry'
       tags: '$(Build.BuildId)'
