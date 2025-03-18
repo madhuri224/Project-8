@@ -14,6 +14,6 @@ steps:
     inputs:
       command: 'buildAndPush'
       repository: 'madhuri224/my-flask-app'
-      Dockerfile: '**/Dockerfile'
+      Dockerfile: './Dockerfile'
       containerRegistry: 'dockerregistry'
       tags: '$(Build.BuildId)'
