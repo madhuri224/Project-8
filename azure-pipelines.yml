@@ -1,0 +1,26 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - main  # Trigger pipeline when code is pushed to main branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: Docker@2
+    displayName: Build Docker Image
+    inputs:
+      command: build
+      repository: 'myregistry.azurecr.io/my-flask-app'
+      dockerfile: '**/Dockerfile'
+      tags: '$(Build.BuildId)'
+
+  - task: Docker@2
+    displayName: Push to ACR
+    inputs:
+      command: push
+      repository: 'myregistry.azurecr.io/my-flask-app'
+      tags: '$(Build.BuildId)'
